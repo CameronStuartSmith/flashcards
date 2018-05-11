@@ -21,7 +21,8 @@ export function addDeck({ key }) {
 	}));
 }
 
-export function addCard({ key, question, answer }, prev) {
+export async function addCard({ key, question, answer }) {
+	const prev = await fetchDecks();
 	return AsyncStorage.mergeItem(DATA_STORAGE_KEY, JSON.stringify({
 		[key]: {
 			...prev[key],

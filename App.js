@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import reducer from './reducers/index';
 import StatusBar from './components/StatusBar';
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
-import Tabs from './components/BottomTabNavigator';
+import Tabs from './components/Navigators/FlashStackNativagtor';
 import middleware from './middleware';
 
 const store = createStore(reducer, middleware);

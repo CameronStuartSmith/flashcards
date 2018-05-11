@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 
-export const DATA_STORAGE_KEY = 'FlashCards:data';
+export const DATA_STORAGE_KEY = 'FlashCards:dat';
 
 const fake_data = {
 	React: {

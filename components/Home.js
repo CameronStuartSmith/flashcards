@@ -4,8 +4,7 @@ import { fetchDecks } from '../utils/api';
 import { connect } from 'react-redux';
 import { getDecks } from '../actions/index';
 import DeckListView from './DeckListView';
-
-
+import Header from './Header';
 
 class Home extends Component {
 
@@ -13,26 +12,11 @@ class Home extends Component {
 		this.props.getDecks();
 	}
 
-	renderState = () => {
-		console.log(this.props.decks);
-		if(!this.props.decks) {
-			return(
-				<Text>Loading...</Text>
-			)
-		} else {
-			return(
-				<DeckListView decks={this.props.decks} />
-			)
-		}
-	}
-
 	render() {
 		return (
 			<View style={styles.container}>
-				<View style={styles.headerContainer}>
-					<Text style={styles.headerText}>Flash Cards</Text>
-				</View>
-				{this.renderState()}
+				<Header />
+				<DeckListView navigation={this.props.navigation} />
 			</View>
 		);
 	}
@@ -57,10 +41,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-function mapStateToProps({ decks }) {
-	return {
-		decks
-	}
-}
-
-export default connect(mapStateToProps, { getDecks })(Home);
+export default connect(null, { getDecks })(Home);
