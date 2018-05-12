@@ -7,17 +7,18 @@ class CustomTextInput extends Component {
 		if(error) {
 			return(
 				<Text style={styles.error}>{error}</Text>
-			)
+			);
 		}
 	}
 
 	render() {
 		const { placeholder, value, onChangeText, error, style, vstyle, ...props } = this.props;
-
 		const textInputStyles = [styles.textInput, style];
+
 		if(error) {
 			textInputStyles.push(styles.inputError);
 		}
+
 		return (
 			<View style={[{ marginLeft: 20, marginRight: 20 }, vstyle]}>
 				<TextInput
@@ -50,6 +51,6 @@ const styles = StyleSheet.create({
 	inputError: {
 		borderColor: '#ff7675'
 	}
-})
+});
 
 export default CustomTextInput;

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, ScrollView } from 'react-native';
-import Button from './Button';
+import Button from '../../Misc/Button';
 import * as Animatable from 'react-native-animatable';
 import QuizCompleted from './QuizCompleted';
+import QuizModal from '../../Modals/QuizModal';
 
 class QuizView extends Component {
 	static navigationOptions = ({ navigation }) => {
-		const { title } = navigation.state.params.deck
+		const { title } = navigation.state.params.deck;
 		return {
 			title: `Quiz - ${title}`
-		}
+		};
 	}
 
 	state = {
@@ -23,7 +24,7 @@ class QuizView extends Component {
 
 	changeHeader = async () => {
 		await this.questionView.flipOutX(200);
-		await this.setState({ showAnswer: !this.state.showAnswer })
+		await this.setState({ showAnswer: !this.state.showAnswer });
 		await this.questionView.flipInX(200);
 	}
 
@@ -62,22 +63,34 @@ class QuizView extends Component {
 				showAnswer: false,
 				currentQuestion: currentQuestion + 1,
 				wrong: incorrect ? wrong + 1 : wrong
-			})
+			});
 		} else {
 			this.setState({
-				completed: true,
+				complete: true,
 				wrong: incorrect ? wrong + 1 : wrong
-			})
+			});
 		}
 
 	}
 
+	onStartOver = () => {
+		this.setState({
+			currentQuestion: 1,
+			wrong: 0,
+			showAnswer: false,
+			complete: false
+		});
+	}
+
+	onGoToDeck = () => {
+		this.props.navigation.goBack();
+	}
 
 	render() {
-		if(this.state.completed) {
+		if(this.state.complete) {
 			const { length } = this.props.navigation.state.params.deck.questions;
 			const { wrong } = this.state;
-			return <QuizCompleted length={length} wrong={wrong} />;
+			return <QuizCompleted length={length} wrong={wrong} onGoToDeck={this.onGoToDeck} onStartOver={this.onStartOver} />;
 		}
 
 		const { currentQuestion } = this.state;
@@ -85,6 +98,7 @@ class QuizView extends Component {
 
 		return (
 			<View style={{flex: 1, justifyContent: 'space-between'}}>
+				<QuizModal />
 				<View style={{ flex: 1 }}>
 					<Text style={styles.ofText}>Question {currentQuestion} of {deck.questions.length}</Text>
 					{this.renderQuestion()}
@@ -116,7 +130,7 @@ const styles = StyleSheet.create({
 	},
 	hr: {
 		borderBottomWidth: 1,
-		borderColor: "rgba(0,0,0,0.05)",
+		borderColor: 'rgba(0,0,0,0.05)',
 		borderRadius: 1,
 		marginTop: 10,
 		marginBottom: 10,

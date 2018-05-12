@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Modal from 'react-native-modal';
-import Button from './Button';
-import { deleteDeck } from '../actions/index';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { View, Text, StyleSheet } from 'react-native';
+import Button from '../Misc/Button';
+import { deleteDeck } from '../../actions/index';
+import StartQuizModal from '../Modals/StartQuizModal';
+import DeleteDeckModal from '../Modals/DeleteDeckModal';
 
 class IndividualDeckView extends Component {
 	static navigationOptions = ({ navigation }) => {
-		const { title } = navigation.state.params
+		const { title } = navigation.state.params;
 		return {
 			title
-		}
+		};
 	}
 
 	state = {
-		modalVisible: false
+		deleteDeckModal: false,
+		startQuizModal: false
 	}
 
 	addQuestion = () => {
@@ -25,8 +26,9 @@ class IndividualDeckView extends Component {
 	}
 
 	deleteDeck = () => {
+		this.setState({ deleteDeckModal: false });
 		const { key } = this.props.navigation.state.params;
-		this.props.deleteDeck({key});
+		this.props.deleteDeck({ key });
 		this.props.navigation.goBack();
 	}
 
@@ -35,40 +37,39 @@ class IndividualDeckView extends Component {
 		if(deck.questions.length > 0) {
 			this.props.navigation.navigate('Quiz', { deck } );
 		} else {
-
+			this.setState({
+				startQuizModal: true
+			});
 		}
 	}
 
-	setModalVisible = () => {
-		this.setState({ modalVisible: !this.state.modalVisible });
+	deleteDeckModalToggle = () => {
+		this.setState({ deleteDeckModal: !this.state.deleteDeckModal });
 	}
 
-	renderModal = () => {
-		return(
-			<Modal isVisible={this.state.modalVisible} onBackdropPress={this.setModalVisible}>
-				<View style={styles.modalContent}>
-			 		<Text style={styles.modalHeader}>Are you sure you want to delete this deck?</Text>
-					<Text style={{textAlign: 'center', fontSize: 15, marginTop: 10}}>You will not be able to reverse this action. Your deck will be lost forver!</Text>
-					<View style={styles.hr}></View>
-					<View style={styles.modalConfirm}>
-						<Button style={{ backgroundColor: '#00b894' }} textStyle={styles.modalButtonText} onPress={this.setModalVisible}>NO</Button>
-			  			<Button textStyle={styles.modalButtonText} onPress={this.deleteDeck}>YES, DELETE IT</Button>
-					</View>
-				</View>
-		  </Modal>
-		);
+	startQuizModalClose = () => {
+		this.setState({
+			startQuizModal: false
+		});
+	}
+
+	onModalAddQuestion = () => {
+		this.startQuizModalClose();
+		this.addQuestion();
 	}
 
 	render() {
 		if(!this.props.deck) {
-			return null
+			return null;
 		}
 
-		const { title, questions } = this.props.deck;
-		const length = questions.length;
+		const { title, questions: { length } } = this.props.deck;
+		const { startQuizModal, deleteDeckModal } = this.state;
+
 		return (
 			<View style={styles.container}>
-				{this.renderModal()}
+				{ deleteDeckModal && <DeleteDeckModal visible={deleteDeckModal} onClose={this.deleteDeckModalToggle} deleteDeck={this.deleteDeck} /> }
+				<StartQuizModal visible={startQuizModal} onClose={this.startQuizModalClose} onAddQuestion={this.onModalAddQuestion} />
 				<View style={styles.headerContainer}>
 					<View style={styles.titleContainer}>
 						<Text style={styles.title}>
@@ -82,7 +83,7 @@ class IndividualDeckView extends Component {
 
 				<Button style={[styles.btn, { backgroundColor: '#00b894' }]} onPress={this.addQuestion}>Add Question</Button>
 				<Button style={[styles.btn, { backgroundColor: '#6c5ce7' }]} onPress={this.startQuiz}>Start Quiz</Button>
-				<Button style={styles.btn} onPress={this.setModalVisible}>Delete Deck</Button>
+				<Button style={styles.btn} onPress={this.deleteDeckModalToggle}>Delete Deck</Button>
 			</View>
 		);
 	}
@@ -116,17 +117,17 @@ const styles = StyleSheet.create({
 		marginBottom: 20
 	},
 	modalContent: {
-		backgroundColor: "white",
+		backgroundColor: 'white',
 		padding: 22,
-		justifyContent: "center",
-		alignItems: "stretch",
+		justifyContent: 'center',
+		alignItems: 'stretch',
 		borderRadius: 4,
-		borderColor: "rgba(0, 0, 0, 0.1)"
+		borderColor: 'rgba(0, 0, 0, 0.1)'
 	},
 	modalHeader: {
 		fontSize: 25,
 		textAlign: 'center',
-		fontWeight: "700"
+		fontWeight: '700'
 	},
 	hr: {
 		marginTop: 30,
@@ -147,7 +148,7 @@ function mapStateToProps({ decks }, { navigation }) {
 	const { key } = navigation.state.params;
 	return {
 		deck: decks[key]
-	}
+	};
 }
 
 export default connect(mapStateToProps, { deleteDeck })(IndividualDeckView);

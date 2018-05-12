@@ -1,15 +1,15 @@
 import { createStackNavigator } from 'react-navigation';
 import FlashTabNavigator from './FlashTabNavigator';
-import IndividualDeckView from '../IndividualDeckView';
-import AddQuestion from '../AddQuestion';
-import QuizView from '../QuizView';
+import IndividualDeckView from '../Views/IndividualDeckView';
+import AddQuestionView from '../Views/AddQuestionView';
+import QuizView from '../Views/Quiz/QuizView';
 
 const FlashStackNavigator = createStackNavigator({
 	Tabs: {
-	  screen: FlashTabNavigator,
-	  navigationOptions: {
-		  header: null
-	  }
+		screen: FlashTabNavigator,
+		navigationOptions: {
+			header: null
+		}
 	},
 	IndividualDeckView: {
 		screen: IndividualDeckView,
@@ -21,11 +21,11 @@ const FlashStackNavigator = createStackNavigator({
 		}
 	},
 	AddQuestion: {
-		screen: AddQuestion,
+		screen: AddQuestionView,
 		navigationOptions: {
 			headerTintColor: 'white',
 			headerStyle: {
-			  backgroundColor: '#74b9ff',
+				backgroundColor: '#74b9ff',
 			}
 		}
 	},
@@ -34,10 +34,10 @@ const FlashStackNavigator = createStackNavigator({
 		navigationOptions: {
 			headerTintColor: 'white',
 			headerStyle: {
-			  backgroundColor: '#74b9ff',
+				backgroundColor: '#74b9ff',
 			}
 		}
 	}
-  })
+});
 
 export default FlashStackNavigator;

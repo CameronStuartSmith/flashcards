@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 
-export const DATA_STORAGE_KEY = 'FlashCards:dat';
+export const DATA_STORAGE_KEY = 'FlashCards:data';
 
 const fake_data = {
 	React: {
@@ -25,7 +25,7 @@ const fake_data = {
 			}
 		]
 	}
-}
+};
 
 function setDummyData() {
 	AsyncStorage.setItem(DATA_STORAGE_KEY, JSON.stringify(fake_data));

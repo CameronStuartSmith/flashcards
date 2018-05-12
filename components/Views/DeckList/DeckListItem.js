@@ -1,20 +1,34 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Platform, TouchableOpacity as Touchable } from 'react-native';
+import { Text, StyleSheet, Platform, TouchableOpacity as Touchable } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+
+function waitPromise(value) {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			resolve();
+		}, value);
+	});
+}
 
 class DeckListItem extends Component {
 
-	handlePress = () => {
+	handlePress = async () => {
+		this.view.lightSpeedOut(300);
+		await waitPromise(350);
 		this.props.navigation.navigate('IndividualDeckView', this.props.data);
+		this.view.slideInRight(800);
 	}
+
+	handleViewRef = ref => this.view = ref;
 
 	render() {
 		const { title, questions } = this.props.data;
 		return (
 			<Touchable onPress={this.handlePress}>
-				<View style={styles.containerStyle}>
+				<Animatable.View style={styles.containerStyle} ref={this.handleViewRef}>
 					<Text style={styles.titleStyle}>{title}</Text>
 					<Text style={styles.lengthStyle}>{questions.length} { questions.length !== 1 ? 'Questions' : 'Question' }</Text>
-				</View>
+				</Animatable.View>
 			</Touchable>
 		);
 	}
@@ -47,6 +61,6 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		color: 'white'
 	}
-})
+});
 
 export default DeckListItem;

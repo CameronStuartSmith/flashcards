@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { View, TextInput } from 'react-native';
-import Button from './Button';
+import { View } from 'react-native';
+import Button from '../Misc/Button';
 import { connect } from 'react-redux';
-import { addCardToDeck } from '../actions/index';
-import CustomTextInput from './CustomTextInput';
+import { addCardToDeck } from '../../actions/index';
+import CustomTextInput from '../Misc/CustomTextInput';
 
-class AddQuestion extends Component {
+class AddQuestionView extends Component {
 	static navigationOptions = ({ navigation }) => {
-		const { title } = navigation.state.params
+		const { title } = navigation.state.params;
 		return {
 			title: `Adding Question to ${title}`
-		}
+		};
 	}
 
 	state = {
@@ -21,7 +21,7 @@ class AddQuestion extends Component {
 	}
 
 	onSubmit = () => {
-		this.setState({errorQuestion: false, errorAnswer: false})
+		this.setState({errorQuestion: false, errorAnswer: false});
 		const { title } = this.props.navigation.state.params;
 		const { question, answer } = this.state;
 		if(question && answer) {
@@ -29,10 +29,10 @@ class AddQuestion extends Component {
 				question,
 				answer,
 				key: title,
-			})
+			});
 			this.props.navigation.goBack();
 		} else {
-			const errors = {}
+			const errors = {};
 			if(!question) {
 				errors.errorQuestion = 'You must input some text!';
 			}
@@ -69,4 +69,4 @@ class AddQuestion extends Component {
 	}
 }
 
-export default connect(null, { addCardToDeck })(AddQuestion);
+export default connect(null, { addCardToDeck })(AddQuestionView);

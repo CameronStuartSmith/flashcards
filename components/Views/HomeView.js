@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { fetchDecks } from '../utils/api';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { getDecks } from '../actions/index';
-import DeckListView from './DeckListView';
-import Header from './Header';
+import { getDecks, getHelpers } from '../../actions/index';
+import DeckListView from './DeckList/DeckListView';
+import Header from '../Misc/Header';
+import HomeModal from '../Modals/HomeModal';
 
-class Home extends Component {
+class HomeView extends Component {
 
 	componentDidMount() {
 		this.props.getDecks();
+		this.props.getHelpers();
 	}
 
 	render() {
 		return (
 			<View style={styles.container}>
+				<HomeModal helper={this.props.helper ? this.props.helper.Home.popup : false} />
 				<Header />
 				<DeckListView navigation={this.props.navigation} />
 			</View>
@@ -39,6 +41,12 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: '#dfe6e9'
 	}
-})
+});
 
-export default connect(null, { getDecks })(Home);
+function mapStateToProps({ helper }) {
+	return {
+		helper
+	};
+}
+
+export default connect(mapStateToProps, { getDecks, getHelpers })(HomeView);

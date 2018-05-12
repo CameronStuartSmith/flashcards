@@ -1,17 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View, Platform } from 'react-native';
-import Home from './components/Home';
+import { View } from 'react-native';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers/index';
-import StatusBar from './components/StatusBar';
-import { FontAwesome, Ionicons } from '@expo/vector-icons'
+import StatusBar from './components/Misc/StatusBar';
 import Tabs from './components/Navigators/FlashStackNativagtor';
 import middleware from './middleware';
+import { setLocalNotification } from './utils/notifications';
 
 const store = createStore(reducer, middleware);
 
 export default class App extends React.Component {
+	componentDidMount() {
+		setLocalNotification();
+	}
 	render() {
 		return (
 			<Provider store={store}>

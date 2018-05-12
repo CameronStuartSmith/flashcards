@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { View, TextInput } from 'react-native';
-import Button from './Button';
+import { View } from 'react-native';
+import Button from '../Misc/Button';
 import { connect } from 'react-redux';
-import { addDeck } from '../actions/index';
-import { NavigationActions, StackActions } from 'react-navigation';
-import CustomTextInput from './CustomTextInput';
-import Header from './Header';
+import { addDeck } from '../../actions/index';
+import CustomTextInput from '../Misc/CustomTextInput';
+import Header from '../Misc/Header';
 
 
-class AddDeck extends Component {
+class AddDeckView extends Component {
 	state = {
 		title: '',
 		error: false
@@ -18,8 +17,8 @@ class AddDeck extends Component {
 		this.setState({error: false});
 		const { title } = this.state;
 		if(title.length > 0) {
-			await this.props.addDeck({ key: title })
-			const params = { key: title, title, questions: [] }
+			await this.props.addDeck({ key: title });
+			const params = { key: title, title, questions: [] };
 			this.props.navigation.navigate('IndividualDeckView', params);
 		} else {
 			this.setState({ error: 'You need to input some text!'});
@@ -38,4 +37,4 @@ class AddDeck extends Component {
 	}
 }
 
-export default connect(null, { addDeck })(AddDeck);
+export default connect(null, { addDeck })(AddDeckView);
