@@ -1,8 +1,9 @@
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
-### How to run
+### About
+Flash Cards is a react native application created for a Udacity Course project.
 
-If you're on a Mac, there are a few errors that users sometimes see when attempting to `npm run ios`:
+### How to run
 
 * Clone the repo
 * Run yarn start or npm start in the cloned repo
