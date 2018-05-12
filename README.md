@@ -6,6 +6,7 @@ Flash Cards is a react native application created for a Udacity Course project.
 ### How to run
 
 * Clone the repo
+* Run yarn install or npm install in the cloned repo
 * Run yarn start or npm start in the cloned repo
 * Scan the QR code to open expo
 
